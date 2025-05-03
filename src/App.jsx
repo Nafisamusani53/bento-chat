@@ -1,12 +1,9 @@
 import { useState } from 'react'
-
+import supabase from './utils/supabase'
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div className='w-full h-full bg-black text-white'>
-      bye
-    </div>
+    <div> bye</div>
   )
 }
 
