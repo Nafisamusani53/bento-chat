@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Cantora+One&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -6,12 +7,48 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+}
+
+@theme {
+  --color-light-blue: oklch(97.05% 0.014 254.60);
+  --color-grey: oklch(52.78% 0.000 0);
+  --color-sky-blue: rgba(0, 172, 210, 0.3);
+  --color-dark-blue: rgb(0, 122, 171);
+  --color-bright-red: rgb(201, 0, 0);
+  --color-opaque-green: rgba(210, 249, 221, 0.5);
+  --color-opaque-purple: rgba(246, 231, 255, 0.5);
+  --color-opaque-red: rgba(255, 233, 233, 0.5);
+  --color-opaque-lime: rgba(241, 251, 221, 0.5);
+  --color-opaque-orange: rgba(255, 242, 226, 0.5);
+  --color-opaque-sea-blue: rgba(210, 249, 246, 0.5);
+  --color-opaque-pink: rgba(255, 228, 245, 0.5);
+  --color-opaque-blue: rgba(205, 241, 253, 0.5);
+  --color-ink-blue: rgba(100, 115, 255, 1);
+  --color-dark-grey: rgba(111, 110, 110, 1);
+  --color-light-grey: rgba(131, 131, 131, 1);
+  --color-extra-light-grey: rgba(179, 179, 179, 1);
+  --color-faint-grey: rgba(198, 198, 198, 1);
+  --color-off-white: rgba(222, 222, 222, 1);
+  --color-opaque-grey: rgba(217, 217, 217, 1)
+
 }
 
 *{
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  background-color: transparent;
 }
+
+.template-bg{
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 30.24%, #ECF4FF 100%), radial-gradient(87.25% 72.05% at 50% 0%, #CEDFFF 0%, #FFFFFF 100%);
+box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.text-bg{
+  background: linear-gradient(273.73deg, #000FB7 0%, #00AEFF 100%);
+  background-clip: text;
+ color: transparent;
+}
+
 
