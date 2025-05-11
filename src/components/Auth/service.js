@@ -1,7 +1,7 @@
 import { setLoading } from "./authSlice"
 import supabase from "../../utils/supabase"
 import toast from "react-hot-toast"
-import { setProfile } from "../../slice/profileSlice"
+import { setProfile } from "../Profile/profileSlice"
 
 
 export const signup = (authData, naviagte) => {
@@ -16,18 +16,18 @@ export const signup = (authData, naviagte) => {
 
         // if success
         if(data){
-            // insert profile Data
-            await supabase.from("Profile")
-                .insert([
-                    { user_id: data.user.id, userName: authData.userName, email: authData.email }
-                ])
+        //     // insert profile Data
+        //     await supabase.from("Profile")
+        //         .insert([
+        //             { user_id: data.user.id, userName: authData.userName, email: authData.email }
+        //         ])
 
-            // dispatch setProfile
-            dispatch(setProfile({
-                id: data.user.id,
-                email: authData.email,
-                userName: authData.userName
-            }))
+        //     // dispatch setProfile
+        //     dispatch(setProfile({
+        //         id: data.user.id,
+        //         email: authData.email,
+        //         userName: authData.userName
+        //     }))
             naviagte('/')
         }
         if(errors){
@@ -51,11 +51,11 @@ export const login = (authData, navigate) => {
 
         // success
         if(data){
-            const {data, error} = await supabase.from('Profile').select().eq('email' , authData.email)
-            dispatch(setProfile(data[0]))
+        //     const {data, error} = await supabase.from('Profile').select().eq('email' , authData.email)
+        //     dispatch(setProfile(data[0]))
             navigate('/')
         }
-        // fail
+        // // fail
         else{
             // show toast
             toast.error("Please try again after some time") 
@@ -66,47 +66,19 @@ export const login = (authData, navigate) => {
 }
 
 
-export const googleAuth = () => async (dispatch) => {
-    try {
-      console.log("Starting Google auth...");
+export const googleAuth = () => {
+    return async (dispatch) => {
       
       // Step 1: Initiate Google OAuth
-      const { data: authData, error: authError } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin, // Important for OAuth flow
+          redirectTo: 'http://localhost:5173', // Important for OAuth flow
         }
       });
   
-      if (authError) console.log(authError);
-  
-      console.log("OAuth response:", authData);
-      
-      // Step 2: Get the authenticated user
-      const { data: { user }, error: userError } = await supabase.auth.getUser();
-      
-      if (userError || !user) throw userError || new Error("No user found");
-      
-      console.log("Authenticated user:", user);
-      
-      // Step 3: Fetch user profile
-      const { data: profileData, error: profileError } = await supabase
-        .from('Profile')
-        .select()
-        .eq('email', user.email)
-        .single(); // Use single() if you expect one record
-  
-      if (profileError) throw profileError;
-      
-      // Step 4: Update Redux state
-      dispatch(setProfile(profileData));
-      
-      // Step 5: Navigate
-      navigate('/');
-      
-    } catch (error) {
-      console.error("Google auth failed:", error);
-      console.log(error.message)
-      toast.error(error.message || "Please try again after some time");
-    }
-  };
+      if(error){
+        toast.error(error.message)
+      }
+ }
+};
