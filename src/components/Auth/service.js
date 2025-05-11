@@ -64,3 +64,49 @@ export const login = (authData, navigate) => {
         dispatch(setLoading('idle'))
     }
 }
+
+
+export const googleAuth = () => async (dispatch) => {
+    try {
+      console.log("Starting Google auth...");
+      
+      // Step 1: Initiate Google OAuth
+      const { data: authData, error: authError } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin, // Important for OAuth flow
+        }
+      });
+  
+      if (authError) console.log(authError);
+  
+      console.log("OAuth response:", authData);
+      
+      // Step 2: Get the authenticated user
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      
+      if (userError || !user) throw userError || new Error("No user found");
+      
+      console.log("Authenticated user:", user);
+      
+      // Step 3: Fetch user profile
+      const { data: profileData, error: profileError } = await supabase
+        .from('Profile')
+        .select()
+        .eq('email', user.email)
+        .single(); // Use single() if you expect one record
+  
+      if (profileError) throw profileError;
+      
+      // Step 4: Update Redux state
+      dispatch(setProfile(profileData));
+      
+      // Step 5: Navigate
+      navigate('/');
+      
+    } catch (error) {
+      console.error("Google auth failed:", error);
+      console.log(error.message)
+      toast.error(error.message || "Please try again after some time");
+    }
+  };

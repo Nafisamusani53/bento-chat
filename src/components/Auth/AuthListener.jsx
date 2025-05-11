@@ -12,8 +12,10 @@ const AuthListener = () => {
     // Get initial session if exists
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
+        console.log(1)
         dispatch(setUser({ user: session.user, session }));
       } else {
+        console.log(2)
         dispatch(logout());
       }
     });
@@ -22,10 +24,13 @@ const AuthListener = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (event === 'SIGNED_IN') {
+          console.log(3)
           dispatch(setUser({ user: session.user, session }));
         } else if (event === 'SIGNED_OUT') {
+          console.log(4)
           dispatch(logout());
         } else if (event === 'TOKEN_REFRESHED') {
+          console.log(5)
           dispatch(setUser({ user: session.user, session }));
         }
       }
