@@ -19,7 +19,7 @@ export const createProfile = (user) => {
 
         // // dispatch the setProfile action
         // dispatch(setProfile({
-        //     id: user?.user_id,
+        //     id: user?.,
         //     email: user?.email,
         //     userName: user?.name,
         //     avatar: user?.avatar,

@@ -2,6 +2,7 @@ import { setLoading } from "./authSlice"
 import supabase from "../../utils/supabase"
 import toast from "react-hot-toast"
 import { setProfile } from "../Profile/profileSlice"
+import axios from "axios"
 
 
 export const signup = (authData, naviagte) => {
@@ -66,19 +67,12 @@ export const login = (authData, navigate) => {
 }
 
 
-export const googleAuth = () => {
-    return async (dispatch) => {
+export const googleAuth = async(navigate) => {
+    try{
+       window.location.href = 'http://localhost:3000/api/v1/auth/google';
+    }  
+    catch(error){
+        console.log(error)
+    }
       
-      // Step 1: Initiate Google OAuth
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: 'http://localhost:5173', // Important for OAuth flow
-        }
-      });
-  
-      if(error){
-        toast.error(error.message)
-      }
  }
-};
