@@ -1,7 +1,8 @@
 import { setLoading } from "./authSlice"
 import supabase from "../../utils/supabase"
 import toast from "react-hot-toast"
-import { setProfile } from "../../slice/profileSlice"
+import { setProfile } from "../Profile/profileSlice"
+import axios from "axios"
 
 
 export const signup = (authData, naviagte) => {
@@ -16,18 +17,18 @@ export const signup = (authData, naviagte) => {
 
         // if success
         if(data){
-            // insert profile Data
-            await supabase.from("Profile")
-                .insert([
-                    { user_id: data.user.id, userName: authData.userName, email: authData.email }
-                ])
+        //     // insert profile Data
+        //     await supabase.from("Profile")
+        //         .insert([
+        //             { user_id: data.user.id, userName: authData.userName, email: authData.email }
+        //         ])
 
-            // dispatch setProfile
-            dispatch(setProfile({
-                id: data.user.id,
-                email: authData.email,
-                userName: authData.userName
-            }))
+        //     // dispatch setProfile
+        //     dispatch(setProfile({
+        //         id: data.user.id,
+        //         email: authData.email,
+        //         userName: authData.userName
+        //     }))
             naviagte('/')
         }
         if(errors){
@@ -51,11 +52,11 @@ export const login = (authData, navigate) => {
 
         // success
         if(data){
-            const {data, error} = await supabase.from('Profile').select().eq('email' , authData.email)
-            dispatch(setProfile(data[0]))
+        //     const {data, error} = await supabase.from('Profile').select().eq('email' , authData.email)
+        //     dispatch(setProfile(data[0]))
             navigate('/')
         }
-        // fail
+        // // fail
         else{
             // show toast
             toast.error("Please try again after some time") 
@@ -64,3 +65,14 @@ export const login = (authData, navigate) => {
         dispatch(setLoading('idle'))
     }
 }
+
+
+export const googleAuth = async(navigate) => {
+    try{
+       window.location.href = 'http://localhost:3000/api/v1/auth/google';
+    }  
+    catch(error){
+        console.log(error)
+    }
+      
+ }

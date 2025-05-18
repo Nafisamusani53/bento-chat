@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
 function PublicRoute({children}) {
-    const session = useSelector(state => state.auth.session)
+    const token = useSelector(state => state.auth.token)
   return (
     <>{
-        !session ? children : <Navigate to='/'/>
+        !token ? children : <Navigate to='/'/>
     }</>
   )
 }

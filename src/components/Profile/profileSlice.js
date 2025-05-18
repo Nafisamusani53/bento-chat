@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-    user_id: '',
+    id: '',
     userName: '',
     email: '',
     avatar: '',
@@ -19,7 +19,7 @@ const profileReducer = createSlice({
             state.about = data.about;
         },
         deleteProfile(state, action){
-            delete state.user_id;
+            delete state.id;
             delete state.email;
             delete state.userName;
             delete state.avatar;
@@ -27,7 +27,7 @@ const profileReducer = createSlice({
         },
         setProfile(state, action){
             const data = action.payload
-            state.user_id = data.user_id;
+            state.id = data.id;
             state.email = data.email;
             state.userName = data.userName;
             state.avatar = data.avatar || '';

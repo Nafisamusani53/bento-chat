@@ -1,5 +1,5 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import profileReducer from '../slice/profileSlice'
+import profileReducer from '../components/Profile/profileSlice'
 import authReducer from '../components/Auth/authSlice'
 
 const rootReducer = combineReducers({

@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
 function PrivateRoute({children}) {
-    const session = useSelector(state=> state.auth.session)
+    const token = useSelector(state=> state.auth.token)
   return (
     <>
-        {session ? children : <Navigate to='/login'/>}
+        {token ? children : <Navigate to='/login'/>}
     </>
   )
 }
