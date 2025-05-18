@@ -1,15 +1,31 @@
 import Chat from './components/Chat'
 import Login from './components/Auth/Login/Login'
 import SignUp from './components/Auth/Signup/SignUp'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import PrivateRoute from './components/PrivateRoute'
 import PublicRoute from './components/PublicRoute'
-import CallBack from './components/Auth/CallBack'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { setToken } from './components/Auth/authSlice'
+import supabase from './utils/supabase'
+import ForgotPassWord from './components/Auth/ForgotPassword/ForgotPassWord'
+import ResetPassword from './components/Auth/ResetPassword/ResetPassword'
 function App() {
-  // const dispatch = useDispatch()
-  // useEffect(()=>{
-    
-  // },[])
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+   useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      dispatch(setToken(session?.access_token))
+    })
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if (_event == "PASSWORD_RECOVERY"){
+        navigate('/reset-password')
+      }
+      dispatch(setToken(session?.access_token))
+
+    })
+  }, [])
+
   return (
     <Routes>
       <Route path='/login' element={<PublicRoute>
@@ -18,7 +34,12 @@ function App() {
       <Route path='/signup' element={<PublicRoute>
         <SignUp />
       </PublicRoute>} />
-      <Route path='/callback' element={<CallBack/>}/>
+      <Route path='/forgot-password' element={<PublicRoute>
+        <ForgotPassWord />
+      </PublicRoute>} />
+
+      <Route path='/reset-password' element={<ResetPassword />} />
+      {/* <Route path='/callback' element={<CallBack/>}/> */}
       <Route path='/' element={
         <PrivateRoute>
           <Chat />

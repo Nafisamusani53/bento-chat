@@ -5,7 +5,8 @@ import CTAButton from '../../common/CTAButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { signup } from '../service'
 import { checkPassword } from '../helpers'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import ThirdParty from '../ThirdPartyAuth/ThirdParty'
 
 function SignUpForm() {
     const [email, setEmail] = useState('')
@@ -50,18 +51,18 @@ function SignUpForm() {
 
 
     return (
-        <div className='rounded-[20px] !p-11 flex flex-col z-10 justify-center items-center gap-3 template-bg'>
+        <>
             <div className='flex flex-col justify-center items-center gap-0 w-full'>
                 <div className='font-[Cantora_One] text-[40px] leading-12 flex w-full items-center justify-center text-bg'>
                     Bento Chat
                 </div>
                 <div className='w-full text-dark-grey text-[16px] text-center'>
-                Create an account to connect with your friends
+                    Create an account to connect with your friends
                 </div>
             </div>
 
             {/* form */}
-            <div className='w-[344px] flex flex-col justify-center items-center gap-4'>
+            <div className='w-full flex flex-col justify-center items-center gap-4'>
                 <div className='w-full flex flex-col justify-center items-center gap-1.5'>
 
                     <AuthInput value={userName} placeholder={'User name'} onChange={(e) => setUserName(e.target.value)} />
@@ -91,7 +92,20 @@ function SignUpForm() {
             </div>
 
             {/* third party auth login based routes */}
-        </div>
+            <div className='flex flex-col gap-2.5 w-full items-center justify-center'>
+                <ThirdParty />
+                <div className='flex flex-col items-center justify-center gap-6 w-full'>
+                    <div className=' text-dark-grey text-[16px] text-center w-full'>
+                        By continuing you agree to our <Link to={'#'} className='text-ink-blue'>Terms of service</Link> <br/>
+                        and <Link to={'#'} className='text-ink-blue'>Privacy Policy</Link>
+                    </div>
+
+                    <div className=' text-dark-grey text-[16px] text-center w-full'>
+                        Already have an account? <Link to={'/login'} className='text-ink-blue'>Log in</Link>
+                    </div>
+                </div>
+            </div>
+        </>
     )
 }
 

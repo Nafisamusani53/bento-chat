@@ -1,5 +1,5 @@
 
-function AuthButton({AuthIcon, EndIcon, text, authService}) {
+function AuthButton({AuthIcon, EndIcon, text, authService = ()=>{}}) {
   return (
     <button 
       onClick={(e)=>{

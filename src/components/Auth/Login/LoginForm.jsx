@@ -26,22 +26,22 @@ function LoginForm() {
     return (
 
 
-        <div className='rounded-[20px] !p-11 flex flex-col z-10 justify-center items-center gap-3 template-bg'>
+       <>
             <div className='font-[Cantora_One] text-[40px] leading-12 flex w-full items-center justify-center text-bg'>
                 Bento Chat
             </div>
 
             {/* form */}
-            <div className='w-[344px] flex flex-col justify-center items-center gap-4'>
+            <div className='w-full flex flex-col justify-center items-center gap-4'>
                 <div className='w-full flex flex-col justify-center items-center gap-1.5'>
 
 
                     <AuthInput type={'email'} value={email} placeholder={'Email'} onChange={(e) => setEmail(e.target.value)} />
                     <div className='flex flex-col w-full gap-0.5'>
                         <AuthPassword value={password} placeholder={"Password"} onChange={(e) => setPassword(e.target.value)} />
-                        <div className='w-full text-ink-blue text-xs text-right cursor-pointer'>
+                        <Link to={'/forgot-password'} className='w-full text-ink-blue text-xs text-right cursor-pointer'>
                             Forgot Password?
-                        </div>
+                        </Link>
                     </div>
                 </div>
                 <CTAButton onClick={submitHandler} loading={loading === 'loading'}>
@@ -59,11 +59,11 @@ function LoginForm() {
             {/* third party auth login based routes */}
             <div className='flex flex-col gap-2.5 w-full items-center justify-center'>
                 <ThirdParty/>
-                <div className=' text-dark-grey text-[16px] text-center w-full'>
-                Don’t have an account? <Link to={'/signup'} className='text-ink-blue'>Sign Up</Link>
-                </div>
+                    <div className=' text-dark-grey text-[16px] text-center w-full'>
+                    Don’t have an account? <Link to={'/signup'} className='text-ink-blue'>Sign Up</Link>
+                    </div>
             </div>
-        </div>
+        </>
     )
 }
 

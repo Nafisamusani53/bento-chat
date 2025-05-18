@@ -1,16 +1,16 @@
 import React from 'react'
-import SignUpForm from './SignUpForm'
 import AuthContainer from '../AuthTemplate/AuthContainer'
 import FormTemplate from '../AuthTemplate/FormTemplate'
+import ForgotPasswordForm from './ForgotPasswordForm'
 
-function SignUp() {
+function ForgotPassWord() {
   return (
-    <AuthContainer>
+   <AuthContainer>
       <FormTemplate>
-    <SignUpForm/>
+        <ForgotPasswordForm />
       </FormTemplate>
     </AuthContainer>
   )
 }
 
-export default SignUp
+export default ForgotPassWord
