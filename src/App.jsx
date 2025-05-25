@@ -1,4 +1,4 @@
-import Chat from './components/Chat'
+
 import Login from './components/Auth/Login/Login'
 import SignUp from './components/Auth/Signup/SignUp'
 import { Route, Routes, useNavigate } from 'react-router-dom'
@@ -10,6 +10,8 @@ import { setToken } from './components/Auth/authSlice'
 import supabase from './utils/supabase'
 import ForgotPassWord from './components/Auth/ForgotPassword/ForgotPassWord'
 import ResetPassword from './components/Auth/ResetPassword/ResetPassword'
+import Chat from './components/ChatView/Chat'
+import { setProfile } from './components/Profile/profileSlice'
 function App() {
   const dispatch = useDispatch()
   const navigate = useNavigate()

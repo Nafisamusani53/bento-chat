@@ -16,18 +16,24 @@ export const signup = (authData, naviagte) => {
 
         // if success
         if(data){
+            const about = `I'am availbale`
+            const avatar = `https://api.dicebear.com/5.x/initials/svg?seed=${authData.userName}`
             // insert profile Data
+            const userData = { 
+                        id: data.user.id, 
+                        username: authData.userName, 
+                        email: authData.email,
+                        about: about,
+                        avatar: avatar
+                    }
             await supabase.from("User")
                 .insert([
-                    { id: data.user.id, userName: authData.userName, email: authData.email }
+                    userData
                 ])
 
             // dispatch setProfile
-            dispatch(setProfile({
-                id: data.user.id,
-                email: authData.email,
-                userName: authData.userName
-            }))
+            dispatch(setProfile(userData))
+            localStorage.setItem('profile', JSON.stringify(userData))
             naviagte('/')
         }
         if(error){
@@ -49,11 +55,13 @@ export const login = (authData, navigate) => {
             password: authData.password,
         })
 
+        console.log('data', data)
+
         // success
-        // console.log(error)
         if(data){
             const {data, error} = await supabase.from('User').select().eq('email' , authData.email).single()
             dispatch(setProfile(data))
+            localStorage.setItem('profile', JSON.stringify(data))
             navigate('/')
         }
         // // fail
@@ -118,8 +126,6 @@ export const resetPassword = (password, navigate) => {
             password: password
         })
 
-        console.log(data)
-        console.log(error)
          dispatch(setLoading("idle"))
 
         if (error) {

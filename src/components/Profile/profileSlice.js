@@ -1,12 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+const profile = localStorage.getItem('profile')
+    ? JSON.parse(localStorage.getItem('profile'))
+    : null;
+
 const initialState = {
-    id: '',
-    userName: '',
-    email: '',
-    avatar: '',
-    about: ''
-}
+    id: profile?.id || '',
+    userName: profile?.userName || '',
+    email: profile?.email || '',
+    avatar: profile?.avatar || '',
+    about: profile?.about || '',
+};
 
 const profileReducer = createSlice({
     name: 'profile',

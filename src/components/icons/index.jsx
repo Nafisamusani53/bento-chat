@@ -1,5 +1,15 @@
 export { default as AppleIcon } from "./AppleIcon";
+export { default as ChatIcon } from "./ChatIcon";
+export { default as CloseIcon } from "./CloseIcon";
+export { default as DeliveredIcon } from "./DeliveredIcon";
+export { default as Emoji } from "./Emoji";
 export { default as EyeIcon } from "./EyeIcon";
 export { default as EyeSlashIcon } from "./EyeSlashIcon";
 export { default as GoogleIcon } from "./GoogleIcon";
+export { default as LinkIcon } from "./LinkIcon";
+export { default as ReadIcon } from "./ReadIcon";
 export { default as RightArrow } from "./RightArrow";
+export { default as SearchIcon } from "./SearchIcon";
+export { default as SendIcon } from "./SendIcon";
+export { default as SettingsIcon } from "./SettingsIcon";
+export { default as ThreeDotIcon } from "./ThreeDotIcon";
