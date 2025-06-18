@@ -1,7 +1,10 @@
-import { setLoading } from "./authSlice"
-import supabase from "../../utils/supabase"
+import { setLoading, setLogout } from "../reducers/authSlice"
+import supabase from "../utils/supabase"
 import toast from "react-hot-toast"
-import { setProfile } from "../Profile/profileSlice"
+import { deleteProfile, setProfile } from "../reducers/profileSlice"
+import {localStorageName } from "../utils/constant"
+import { clearChat } from "../reducers/ChatSlice"
+import { resetNavigation } from "../reducers/navigationSlice"
 
 
 export const signup = (authData, naviagte) => {
@@ -54,23 +57,20 @@ export const login = (authData, navigate) => {
             email : authData.email,
             password: authData.password,
         })
-
-        console.log('data', data)
-
-        // success
-        if(data){
-            const {data, error} = await supabase.from('User').select().eq('email' , authData.email).single()
-            dispatch(setProfile(data))
-            localStorage.setItem('profile', JSON.stringify(data))
-            navigate('/')
-        }
-        // // fail
-        if(error){
+         dispatch(setLoading('idle'))
+         if(error){
             // show toast
             toast.error(error.message) 
         }
-        
-        dispatch(setLoading('idle'))
+        // success
+        if(data){
+            const {data, error} = await supabase.from('User').select().eq('email' , authData.email).single()
+            await dispatch(setProfile(data))
+            localStorage.setItem('profile', JSON.stringify(data))
+            navigate('/')
+        }
+        //
+       
     }
 }
 
@@ -136,3 +136,42 @@ export const resetPassword = (password, navigate) => {
         
     }
 }
+
+export const logout = () => {
+    return async(dispatch) => {
+        const {error} = await supabase.auth.signOut()
+        if(!error){
+            localStorage.removeItem(localStorageName.profile)
+            dispatch(setLogout())
+            dispatch(deleteProfile())
+            dispatch(clearChat())
+            dispatch(resetNavigation())
+        }
+    }
+}
+
+export const deleteAccount = (userId, token) => {
+  return async (dispatch) => {
+    try {
+        // console.log(userId)
+      const { data, error } = await supabase.functions.invoke('delete-user-and-update-chat', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: {
+      userId,
+    },
+  });
+
+        dispatch(deleteProfile());
+        dispatch(setLogout());
+        toast.success("Account deleted successfully");
+        localStorage.removeItem(localStorageName.profile)
+        dispatch(logout())
+
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+};

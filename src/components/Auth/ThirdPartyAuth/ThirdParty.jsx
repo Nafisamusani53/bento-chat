@@ -1,7 +1,7 @@
 import React from 'react'
 import AuthButton from './AuthButton'
 import { AppleIcon, GoogleIcon, RightArrow } from '../../icons'
-import { appleAuth, googleAuth } from '../service'
+import { appleAuth, googleAuth } from '../../../service/AuthService'
 
 function ThirdParty() {
   return (

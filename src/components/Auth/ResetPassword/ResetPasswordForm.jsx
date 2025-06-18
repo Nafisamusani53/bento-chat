@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { checkPassword } from '../helpers'
 import AuthPassword from '../common/AuthPassword'
 import { useDispatch, useSelector } from 'react-redux'
 import CTAButton from '../../common/CTAButton'
-import { resetPassword } from '../service'
 import { useNavigate } from 'react-router-dom'
+import { checkPassword } from '../../../utils/helpers'
+import { resetPassword } from '../../../service/AuthService'
 
 function ResetPasswordForm() {
   const [password, setPassword] = useState('')

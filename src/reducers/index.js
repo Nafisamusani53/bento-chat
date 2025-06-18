@@ -1,12 +1,16 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import profileReducer from '../components/Profile/profileSlice'
-import authReducer from '../components/Auth/authSlice'
-import navigationReducer from '../components/Panels/NavigationPanel/navigationSlice'
+import profileReducer from './profileSlice'
+import authReducer from './authSlice'
+import navigationReducer from './navigationSlice'
+import chatReducer from './ChatSlice'
+import trackUserReducer from './TrackUserSlice'
 
 const rootReducer = combineReducers({
     profile: profileReducer,
     auth: authReducer,
-    navigation: navigationReducer
+    navigation: navigationReducer,
+    chat: chatReducer,
+    trackUser: trackUserReducer,
 
 })
 export default rootReducer;

@@ -1,12 +1,11 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ChatIcon, SettingsIcon } from '../../icons'
-import { setNavigation } from './navigationSlice'
+import { setNavigation } from '../../../reducers/navigationSlice'
 
 function NavigationPanel() {
     const profile = useSelector((state)=>state.profile)
     const selected = useSelector((state)=>state.navigation)
-    console.log(selected)
     const dispatch = useDispatch()
     const navigationHandler = (e, tab) => {
         e.preventDefault()
@@ -39,7 +38,7 @@ function NavigationPanel() {
                   onClick={(e) => { navigationHandler(e, "profile") }}>
                       <img
                           src={profile.avatar}
-                          className='border border-dark-blue rounded-full aspect-square w-9'
+                          className='border border-dark-blue rounded-full aspect-square w-9 object-cover'
                           alt='Profile image'
                           loading='lazy'
                       />

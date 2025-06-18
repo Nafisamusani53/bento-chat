@@ -4,6 +4,7 @@ import List from './List'
 
 function SearchContainer() {
   const [userList, setUserList] = useState([])
+
   return (
     <>
         <SearchBar setUserList={setUserList}/>

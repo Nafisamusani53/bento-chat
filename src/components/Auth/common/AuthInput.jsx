@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-function AuthInput({type='text', placeholder, value, onChange}) {
+function AuthInput({type='text', placeholder="", value, onChange}) {
   return (
     <input
         type={type}

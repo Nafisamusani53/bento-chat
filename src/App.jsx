@@ -6,12 +6,11 @@ import PrivateRoute from './components/PrivateRoute'
 import PublicRoute from './components/PublicRoute'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { setToken } from './components/Auth/authSlice'
 import supabase from './utils/supabase'
 import ForgotPassWord from './components/Auth/ForgotPassword/ForgotPassWord'
 import ResetPassword from './components/Auth/ResetPassword/ResetPassword'
 import Chat from './components/ChatView/Chat'
-import { setProfile } from './components/Profile/profileSlice'
+import { setToken } from './reducers/authSlice'
 function App() {
   const dispatch = useDispatch()
   const navigate = useNavigate()

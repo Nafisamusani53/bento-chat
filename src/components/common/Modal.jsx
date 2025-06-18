@@ -1,0 +1,24 @@
+import ReactDOM from 'react-dom'
+import { CloseBigIcon } from '../icons'
+import useClickOutside from '../../hooks/clickOutside'
+import { useRef } from 'react'
+
+function Modal({ children , setClose}) {
+
+  const modalRef = useRef(null)
+  useClickOutside(modalRef, setClose)
+  return ReactDOM.createPortal(
+    <div className='fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50' >
+      <div className='bg-white flex flex-col gap-8 !p-10 border border-faint-grey/50 rounded-2xl relative w-2xl items-center justify-center' ref={modalRef}>
+      <div className='absolute top-1 right-5 w-6 h-6 cursor-pointer' onClick={setClose} >
+        <CloseBigIcon/>
+      </div>
+      {children}
+      </div>
+    </div>,
+    document.getElementById('modal-root')
+  )
+}
+
+export default Modal
+

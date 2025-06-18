@@ -3,7 +3,7 @@ import AuthInput from '../common/AuthInput'
 import CTAButton from '../../common/CTAButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { sendResetPasswordLink } from '../service'
+import { sendResetPasswordLink } from '../../../service/AuthService'
 
 function ForgotPasswordForm() {
     const [email, setEmail] = useState('')

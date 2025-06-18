@@ -13,7 +13,7 @@ const authReducer = createSlice({
         setLoading(state, action){
             state.status = action.payload
         },
-        logout(state, action){
+        setLogout(state, action){
             state.token = null;
             state.status = 'idle'
         },
@@ -23,6 +23,6 @@ const authReducer = createSlice({
     }
     
 })
-export const {setLoading, logout, setToken} = authReducer.actions;
+export const {setLoading, setLogout, setToken} = authReducer.actions;
 
 export default authReducer.reducer;

@@ -1,76 +1,109 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import MessageBox from './MessageBox'
+import InputBox from './InputBox'
+import { useDispatch, useSelector } from 'react-redux'
+import supabase from '../../../utils/supabase'
+import { setPresence } from '../../../reducers/TrackUserSlice'
 
 function ChatScreen() {
-    console.log("chatscreen")
-    const chatList = [
-        {
-            from: 5,
-            message: "Oyy",
-            time: "10:00 pm",
-            status: "read",
-            to: 1,
-            id: 1,
-        },
-        {
-            from: 5,
-            message: "Lets make a tech that will make us able to travel time",
-            time: "10:00 pm",
-            status: "read",
-            to: 1,
-            id: 2,
-        },
-        {
-            from: 1,
-            message: "WOWWWWWWWWWWWW",
-            time: "10:00 pm",
-            status: "read",
-            to: 5,
-            id: 3,
-        },
-        {
-            from: 5,
-            message: "I have done half of the research, but will take time, join MEEEE",
-            time: "10:00 pm",
-            status: "read",
-            to: 1,
-            id: 4,
-        },
-        {
-            from: 1,
-            message: "OFFCOURSE, I'AM INNNNNNNNN",
-            time: "10:00 pm",
-            status: "read",
-            to: 5,
-            id: 5,
-        },
-        {
-            from: 5,
-            message: "This is exhilarating :)))",
-            time: "10:00 pm",
-            status: "delivered",
-            to: 1,
-            id: 6,
-        },{
-            from: 1,
-            message: "Yessss",
-            time: "10:00 pm",
-            status: "send",
-            to: 5,
-            id: 7,
-        },
-    ]
-  return (
-    <div className='flex flex-col !p-8 !pb-0 w-full h-full'>
-        <div className='flex flex-col gap-1.5 w-full h-full'>
-            {
-                chatList.map((item)=>(
-                    <MessageBox id={1} data={item} key={item.id}/>
-                ))
+    const [messages, setMessages] = useState([])
+    const { chatId, userId } = useSelector(state => state.chat)
+    const profileId = useSelector(state => state.profile.id)
+    const dispatch = useDispatch()
+    const presence = useSelector(state => state.trackUser.presence)
+    const containerRef = useRef(null)
+    const [shouldAutoScroll, setShouldAutoScroll] = useState(true)
+
+    // 📌 Watch scroll position
+    const handleScroll = () => {
+        const el = containerRef.current
+        if (!el) return
+        const threshold = 150 // pixels from bottom to still allow auto-scroll
+        const isNearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < threshold
+        setShouldAutoScroll(isNearBottom)
+    }
+
+    useEffect(() => {
+        const el = containerRef.current
+        if (el) {
+            el.addEventListener('scroll', handleScroll)
+            return () => el.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (chatId) {
+            supabase.rpc("fetch_msg_with_sts_update", {
+                chatid: chatId,
+                userid: userId,
+                profileid: profileId
+            }).then(({ data, error }) => {
+                if (!error) setMessages(data)
+            })
+
+            const channel = supabase
+                .channel('chat-' + chatId)
+                .on('postgres_changes', {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'Message',
+                    filter: `chat_id=eq.${chatId}`
+                }, (payload) => {
+                    setMessages(prev => [...prev, payload.new])
+                })
+                .subscribe()
+
+            return () => {
+                supabase.removeChannel(channel)
             }
-        </div>
-    </div>
-  )
+        }
+    }, [chatId])
+
+    useEffect(() => {
+        if (shouldAutoScroll && containerRef.current) {
+            const el = containerRef.current
+            el.scrollTop = el.scrollHeight
+        }
+    }, [messages])
+
+    useEffect(() => {
+        if (!chatId || !profileId) return;
+
+        const presenceChannel = supabase.channel('presence:chat-' + chatId, {
+            config: { presence: { key: profileId } },
+        });
+
+        presenceChannel
+            .on('presence', { event: 'sync' }, () => {
+                const state = presenceChannel.presenceState();
+                dispatch(setPresence (state));
+            })
+            .subscribe(async (status) => {
+                if (status === 'SUBSCRIBED') {
+                    await presenceChannel.track({ user_id: profileId });
+                }
+            });
+
+        return () => {
+            supabase.removeChannel(presenceChannel);
+        };
+    }, [chatId, profileId]);
+
+    return (
+        <>
+            <div
+                ref={containerRef}
+                className='flex flex-col !py-8 !px-4 !pb-0 w-full h-full overflow-y-scroll'
+            >
+                <div className='flex flex-col gap-1.5 w-full h-full'>
+                    {messages.map((item) => (
+                        <MessageBox data={item} key={item.id} />
+                    ))}
+                </div>
+            </div>
+            <InputBox />
+        </>
+    )
 }
 
 export default ChatScreen

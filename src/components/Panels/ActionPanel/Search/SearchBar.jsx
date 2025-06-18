@@ -8,23 +8,35 @@ import { useSelector } from 'react-redux';
 function SearchBar({setUserList}) {
     const [value, setValue] = useState('')
     const id = useSelector(state => state.profile.id)
+
+    const chatUsers = async() =>{
+      if(!id){
+        return;
+      }
+      const {data, error} = await supabase.rpc("chatlist", {
+        profileid: id
+      })
+      if(data){
+        setUserList(data)
+      }
+    }
+
   const sendRequest = async () => {
-    // send request to the backend here
-    // value is coming from state
-    console.log(value);
     if(value){
-      const { data: users, error } = await supabase.from("User").select("*").ilike("username", `%${value}%`)
-      // .neq("id",id);
-      console.log(users)
-      if(users.length){
+      const {data: users, error} = await supabase.rpc("search", {
+        profileid: id,
+        content : value
+      })
+      if(users){
         setUserList(users)
       }
     }
-    else{
-      setUserList([])
-    }
 
   };
+
+  useEffect(()=>{
+    chatUsers()
+  },[id])
 
   // creating ref and initializing it with the sendRequest function
   const ref = useRef(sendRequest);
@@ -66,7 +78,7 @@ function SearchBar({setUserList}) {
         />
         {value ? (<div className='cursor-pointer' onClick={()=>{
           setValue("")
-          setUserList([])
+          chatUsers()
           }}>
           <CloseIcon/>
         </div>) : (<SearchIcon/>)}

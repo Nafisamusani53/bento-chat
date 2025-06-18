@@ -3,9 +3,9 @@ import AuthInput from '../common/AuthInput'
 import AuthPassword from '../common/AuthPassword'
 import CTAButton from '../../common/CTAButton'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../service'
 import { Link, useNavigate } from 'react-router-dom'
 import ThirdParty from '../ThirdPartyAuth/ThirdParty'
+import { login } from '../../../service/AuthService'
 
 function LoginForm() {
     const [email, setEmail] = useState('')

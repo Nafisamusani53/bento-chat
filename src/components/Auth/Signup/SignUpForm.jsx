@@ -3,10 +3,10 @@ import AuthInput from '../common/AuthInput'
 import AuthPassword from '../common/AuthPassword'
 import CTAButton from '../../common/CTAButton'
 import { useDispatch, useSelector } from 'react-redux'
-import { signup } from '../service'
-import { checkPassword } from '../helpers'
 import { Link, useNavigate } from 'react-router-dom'
 import ThirdParty from '../ThirdPartyAuth/ThirdParty'
+import { checkPassword } from '../../../utils/helpers'
+import { signup } from '../../../service/AuthService'
 
 function SignUpForm() {
     const [email, setEmail] = useState('')

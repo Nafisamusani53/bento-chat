@@ -16,10 +16,15 @@ const navigationReducer = createSlice({
             return acc;
         }, {});
         return tabs
+        },
+        resetNavigation(state, action){
+            state.search = true;
+            state.settings = false;
+            state.profile = false;
         }
     }
 })
 
-export const {setNavigation} = navigationReducer.actions
+export const {setNavigation, resetNavigation} = navigationReducer.actions
 
 export default navigationReducer.reducer
