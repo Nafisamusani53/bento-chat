@@ -104,7 +104,7 @@ export const googleAuth = async(navigate) => {
         dispatch(setLoading("loading"))
     
         const { data, error } = await supabase.auth.resetPasswordForEmail(email,{
-            redirectTo : 'http://localhost:5173/reset-password'
+            redirectTo : 'https://bento-chat.vercel.app/reset-password'
         })
 
         dispatch(setLoading("idle"))
