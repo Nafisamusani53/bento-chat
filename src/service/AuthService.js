@@ -150,7 +150,7 @@ export const logout = () => {
     }
 }
 
-export const deleteAccount = (userId, token) => {
+export const deleteAccount = (userId, token, handleClose) => {
   return async (dispatch) => {
     try {
         // console.log(userId)
@@ -169,6 +169,7 @@ export const deleteAccount = (userId, token) => {
         toast.success("Account deleted successfully");
         localStorage.removeItem(localStorageName.profile)
         dispatch(logout())
+        handleClose()
 
     } catch (error) {
       console.log("error", error);

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { CloseIcon, SearchIcon } from '../../../icons'
+import { CloseIcon, Search} from '../../../icons'
 import debounce from 'lodash.debounce';
 import supabase from "../../../../utils/supabase"
 import { useSelector } from 'react-redux';
@@ -76,12 +76,26 @@ function SearchBar({setUserList}) {
             name='search'
             className='placeholder-bg-grey bg-none focus:outline-none'
         />
-        {value ? (<div className='cursor-pointer' onClick={()=>{
+        {/* {value ? (<div className='cursor-pointer' onClick={()=>{
           setValue("")
           chatUsers()
           }}>
           <CloseIcon/>
-        </div>) : (<SearchIcon/>)}
+        </div>) : (<SearchIcon/>)} */}
+
+          <div className="w-5 h-5 flex items-center justify-center cursor-pointer">
+    {value ? (
+      <div onClick={() => {
+        setValue("");
+        chatUsers();
+      }}>
+        <CloseIcon />
+      </div>
+    ) : (
+      <Search/>
+    )}
+  </div>
+
         
     </div>
   )

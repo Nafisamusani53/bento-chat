@@ -15,7 +15,7 @@ export { default as LinkIcon } from "./LinkIcon";
 export { default as LogoutIcon } from "./LogoutIcon";
 export { default as ReadIcon } from "./ReadIcon";
 export { default as RightArrow } from "./RightArrow";
-export { default as SearchIcon } from "./SearchIcon";
+export { default as Search } from "./Search";
 export { default as SendIcon } from "./SendIcon";
 export { default as SettingsIcon } from "./SettingsIcon";
 export { default as StartChatIcon } from "./StartChatIcon";
