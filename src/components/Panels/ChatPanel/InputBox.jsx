@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Emoji, LinkIcon } from '../../icons'
 import { useDispatch, useSelector } from 'react-redux';
 import supabase from '../../../utils/supabase';
@@ -34,15 +34,9 @@ function InputBox() {
   const { data, error: uploadError } = await uploadFile(filePath, file)
 
   if (uploadError) {
-    console.error('Upload failed:', uploadError);
     return;
   }
 
-  // Get public URL or signed URL
-  // const { data: publicUrlData } = await uploadFile(filePath, file)
-  // const { data: publicUrlData } = supabase.storage
-  //   .from('your-bucket-name')
-  //   .getPublicUrl(filePath);
   const fileUrl = await getFileUrl(filePath);
 
   if (fileUrl) {
@@ -78,13 +72,12 @@ function InputBox() {
       message: msg.trim() || fileUrl,
     }
     if(presence[chat.userId]){
-      data.status = "delivered"
+      data.status = "read"
     }
     if(fileUrl){
       data.type = "file"
     }
     const { error } = await supabase.from('Message').insert(data);
-    console.log(error)
   }
 
   const handleKeyChange = (e) => {

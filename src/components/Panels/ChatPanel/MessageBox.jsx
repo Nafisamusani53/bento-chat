@@ -20,9 +20,7 @@ function MessageBox({data }) {
                 {profileId === data.sender_id && (
                     data.status === "delivered" ? (
                         <DeliveredIcon />
-                    ) : data.status === "sent" ? (
-                        <SendIcon />
-                    ) : (
+                    ) : data.status === "read" && (
                         <ReadIcon />
                     )
                 )}

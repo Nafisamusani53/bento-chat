@@ -153,7 +153,6 @@ export const logout = () => {
 export const deleteAccount = (userId, token, handleClose) => {
   return async (dispatch) => {
     try {
-        // console.log(userId)
       const { data, error } = await supabase.functions.invoke('delete-user-and-update-chat', {
     method: 'POST',
     headers: {
@@ -172,7 +171,7 @@ export const deleteAccount = (userId, token, handleClose) => {
         handleClose()
 
     } catch (error) {
-      console.log("error", error);
+      toast.error("Please try after some time")
     }
   };
 };
