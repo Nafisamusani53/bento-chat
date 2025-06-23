@@ -19,7 +19,7 @@ function CTAButton({
     filled: 'bg-dark-blue text-white ',
     outlined: 'border-[1px] border-dark-blue text-dark-blue',
     'outlined-black': 'border-[1px] text-black',
-    warning: 'bg-bright-red  opacity-30 text-white ',
+    warning: 'bg-bright-red  opacity-50 text-white ',
   };
   
   // Disabled state classes
