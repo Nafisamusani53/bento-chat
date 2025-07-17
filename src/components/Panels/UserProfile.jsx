@@ -13,7 +13,7 @@ function UserProfile({ setContact }) {
   const [blockModal, setblockModal] = useState(false);
   const dispatch = useDispatch();
   return (
-    <div className='flex flex-col justify-center bg-white/50 h-full w-[500px] border border-white rounded-2xl !py-1.5'>
+    <div className='flex flex-col justify-center bg-white/50 h-full w-[500px] border border-white rounded-2xl !py-1.5 max-xl:w-[400px]'>
       <div className='flex gap-3 !pl-5 !pt-1.5 w-full'>
         <div onClick={() => setContact(false)} className='cursor-pointer'>
           <CloseIcon />
