@@ -9,7 +9,7 @@ const trackUserReducer = createSlice({
     initialState,
     reducers :{
         setPresence(state, action){
-            state.presence = action.payload;
+            state.presence = { ...action.payload };
         },
     }
 })
