@@ -49,6 +49,13 @@ function SignUpForm() {
         dispatch(signup({ email: email, password: password, userName: userName }, navigate))
     }
 
+    const handleKeyDown = (e) => {
+        if(e.key === "Enter"){
+            console.log("here")
+            submitHandler()
+        }
+    }
+
 
     return (
         <>
@@ -73,7 +80,7 @@ function SignUpForm() {
                         </div>
                     </div>
                     <div className='flex flex-col w-full'>
-                        <AuthPassword value={password} placeholder={"Password"} onChange={(e) => setPassword(e.target.value)} />
+                        <AuthPassword value={password} placeholder={"Password"} onChange={(e) => setPassword(e.target.value)} onKeyDown={handleKeyDown} />
                         <div className={`w-full !pl-1.5 text-[10px] ${!error.password ? ' text-dark-grey ' : ' text-bright-red horizontal-shake'}`}>
                             Use 8 characters with a mix letters, symbols and numbers.
                         </div>

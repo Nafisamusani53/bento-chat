@@ -23,6 +23,13 @@ function LoginForm() {
             password: password
         }, navigate))
     }
+
+    const handleKeyDown = (e) => {
+        if(e.key === "Enter"){
+            console.log("here")
+            submitHandler()
+        }
+    }
     return (
 
 
@@ -38,7 +45,7 @@ function LoginForm() {
 
                     <AuthInput type={'email'} value={email} placeholder={'Email'} onChange={(e) => setEmail(e.target.value)} />
                     <div className='flex flex-col w-full gap-0.5'>
-                        <AuthPassword value={password} placeholder={"Password"} onChange={(e) => setPassword(e.target.value)} />
+                        <AuthPassword value={password} placeholder={"Password"} onChange={(e) => setPassword(e.target.value)} onKeyDown={handleKeyDown}/>
                         <Link to={'/forgot-password'} className='w-full text-ink-blue text-xs text-right cursor-pointer'>
                             Forgot Password?
                         </Link>
