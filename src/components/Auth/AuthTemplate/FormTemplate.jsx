@@ -5,6 +5,8 @@ function FormTemplate({children}) {
        <div className='w-28 rounded-2xl bg-white opacity-50 -z-10 top-9 right-7 absolute rotate-45 aspect-square'></div>
        <div className='w-28 rounded-2xl bg-white opacity-50 -z-10 bottom-5 left-4 absolute rotate-12 aspect-square'></div>
         {children}
+        <div className="text-black text-[10px]"><span className="font-bold">Note:</span> This website is under migration to Next.js and TypeScript. Third-party authentication may be temporarily unavailable due to React compatibility limitations.</div>
+
     </div>
   )
 }

@@ -82,7 +82,21 @@ export const googleAuth = async(navigate) => {
     // catch(error){
     //     console.log(error)
     // }
-    return
+    // return
+
+    const { data, error } = await supabase.auth.signInWithOAuth({ 
+    provider: "google",
+    options: {
+      queryParams: { display: "popup" },
+    },
+  });
+
+  console.log("DATA",data)
+  if (error) {
+    console.error("Error signing in:", error.message);
+  } else {
+    console.log("Redirecting to Google login...");
+  }
       
  }
 

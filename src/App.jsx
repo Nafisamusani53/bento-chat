@@ -17,6 +17,7 @@ function App() {
    useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       dispatch(setToken(session?.access_token))
+      console.log("TOken : ", session?.access_token)
     })
     supabase.auth.onAuthStateChange((_event, session) => {
       if (_event == "PASSWORD_RECOVERY"){

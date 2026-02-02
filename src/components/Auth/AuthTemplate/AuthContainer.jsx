@@ -13,6 +13,7 @@ export default function AuthContainer({children}) {
       <div className='w-28 rounded-4xl bg-opaque-orange top-[30%] left-[25%] absolute border-[1px] border-white rotate-45 aspect-square'></div>
       <div className='w-16 rounded-2xl bg-opaque-sea-blue top-[18%] left-[38%] absolute border-[1px] border-white rotate-45 aspect-square'></div>
       {children}
+      
     </div>
   )
 }
