@@ -14,7 +14,6 @@ interface UserProfileProps {
 
 const UserProfile : React.FC<UserProfileProps>= ({setContact}) => {
   const chat = useAppSelector(state => state.chat)
-  console.log(chat)
   const profileId = useAppSelector(state => state.profile.id)
   const [open, setOpen] = useState<boolean>(false)
   const [blockModal, setblockModal] = useState(false);
