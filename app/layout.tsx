@@ -32,7 +32,6 @@ export default async function RootLayout({
       .single();
 
     profile = data;
-    console.log("profile", profile)
   }
 
   return (

@@ -9,7 +9,6 @@ interface ListProps {
 }
 
 const List : React.FC<ListProps> = ({userList}) => {
-    console.log("use list", userList)
   return (
    <div className='flex flex-col gap-1 w-full max-h-full overflow-y-scroll'>
         {

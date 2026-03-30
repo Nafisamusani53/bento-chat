@@ -29,7 +29,6 @@ export const login = createAsyncThunk<
       password: authData.password,
     });
 
-    console.log("error",error)
     if (error) {
       return rejectWithValue(error.message);
     }

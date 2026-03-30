@@ -42,15 +42,16 @@ const isOnline =
     : chat.userAvatar ?? 'https://api.dicebear.com/5.x/initials/svg?seed=User'
   return (
     <div className='w-full flex gap-5 !px-[18px] !py-2 bg-white/30 border-b-white/50 border-b rounded-t-2xl relative items-center'>
-        <img src={avatarSrc} className='w-14 rounded-full aspect-square object-cover cursor-pointer' onClick={()=>setContact(true)}/>
-        {/* <Image
+        {/* <img src={avatarSrc} className='w-14 rounded-full aspect-square object-cover cursor-pointer' onClick={()=>setContact(true)}/> */}
+        <Image
   src={avatarSrc}
   alt="avatar"
   width={56}
   height={56}
   className="w-14 rounded-full aspect-square object-cover cursor-pointer"
+  unoptimized
   onClick={() => setContact(true)}
-/> */}
+/>
         <div className='flex flex-col w-full'>
             <div className='text-2xl text-black'>{chat.deleted ? "Deleted User" : chat.userName}</div>
         <div className="text-xs text-grey">

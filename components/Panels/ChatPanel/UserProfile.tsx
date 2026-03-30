@@ -2,7 +2,7 @@
 import { BlockIcon, CloseIcon, DeleteIcon } from '@/components/icons';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import React, { useState } from 'react'
-import defaultImage from '../../../assests/images/default-image.webp'
+import defaultImage from "@/assests/images/default-image.webp";
 import Modal from '@/components/Common/Modal';
 import CTAButton from '@/components/Common/CTAButton';
 import { blockUser, deleteUserChat } from '@/store/thunks/ChatThunks';
@@ -14,6 +14,7 @@ interface UserProfileProps {
 
 const UserProfile : React.FC<UserProfileProps>= ({setContact}) => {
   const chat = useAppSelector(state => state.chat)
+  console.log(chat)
   const profileId = useAppSelector(state => state.profile.id)
   const [open, setOpen] = useState<boolean>(false)
   const [blockModal, setblockModal] = useState(false);
@@ -31,12 +32,20 @@ const UserProfile : React.FC<UserProfileProps>= ({setContact}) => {
 
         <div className='flex flex-col items-center gap-2.5 !py-4 w-full'>
           {/* <img src={chat?.blocked ? defaultImage : chat.userAvatar} className='w-[242px] aspect-square rounded-full border border-white object-cover' /> */}
-          <img
-  src={chat?.blocked ? defaultImage : chat.userAvatar || defaultImage}
+          {/* <img
+  src={chat?.blocked ? defaultImage : chat?.userAvatar || defaultImage}
   alt = {"User Profile Image"}  
   width={242}
   height={242}
   className="rounded-full object-cover"
+/> */}
+<Image
+  src={chat?.blocked ? defaultImage : chat?.userAvatar || defaultImage}
+  alt="User Profile Image"
+  width={242}
+  height={242}
+  unoptimized
+  className="w-[242px] aspect-square rounded-full border border-white object-cover"
 />
           <div className='flex flex-col w-full justify-center items-center'>
             <div className='text-2xl font-bold'>
