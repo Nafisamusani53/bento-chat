@@ -12,6 +12,7 @@ const AuthButton: React.FC<AuthButtonProps> = ({AuthIcon, EndIcon, text, authSer
     <button 
       onClick={(e)=>{
         e.preventDefault()
+        console.log("clicked")
         authService()
       }}
       className='cursor-pointer flex justify-between w-full items-center !px-4 !py-3 rounded-[14px] bg-white border border-dark-grey'>
