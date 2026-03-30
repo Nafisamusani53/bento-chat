@@ -6,15 +6,30 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "icons": "svgr ./assests/icons -d ./components/icons --filename-case pascal --ext tsx --ignore-existing",
+    "icons:watch": "npm run icons -- --watch",
+    "predev": "npm run icons",
+    "prebuild": "npm run icons"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.11.2",
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.90.1",
+    "axios": "^1.13.2",
+    "emoji-picker-react": "^4.16.1",
+    "lodash.debounce": "^4.0.8",
     "next": "16.1.1",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "react-hot-toast": "^2.6.0",
+    "react-redux": "^9.2.0",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
+    "@svgr/cli": "^8.1.0",
     "@tailwindcss/postcss": "^4",
+    "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
