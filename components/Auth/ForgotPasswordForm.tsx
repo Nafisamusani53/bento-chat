@@ -6,21 +6,33 @@ import Link from 'next/link'
 import { useAppDispatch } from '@/store/hooks'
 import { sendResetPasswordLink } from '@/store/thunks/AuthThunks'
 import toast from 'react-hot-toast'
+import { checkEmail } from '@/utils/helper'
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState('')
-  const loading = false //
+  const [loading, setLoading] = useState<boolean>(false)
   const dispatch = useAppDispatch()
+  const [error, setError] = useState<boolean>(false)
+
+  const checkError = () => {
+    const emailError = !email || checkEmail(email)
+
+    setError(emailError)
+    return emailError;
+  }
 
   const submitHandler = async () => {
-    if (!email) return;
+    if (checkError()) return;
 
     try {
+      setLoading(true);
       await dispatch(sendResetPasswordLink({ email })).unwrap();
 
       toast.success("Link has been sent to your mail. Check your email.");
     } catch (err) {
       toast.error("Try again after some time.");
+    }finally{
+      setLoading(false);
     }
   };
   return (
@@ -32,7 +44,12 @@ const ForgotPasswordForm = () => {
         Enter your email address, we will send you link to your email to reset your password
       </div>
       <div className='w-full flex flex-col justify-center items-center gap-4'>
-        <AuthInput type={'email'} value={email} placeholder={'Email'} onChange={(e) => setEmail(e.target.value)} />
+        <div className='flex flex-col w-full'>
+          <AuthInput type={'email'} value={email} placeholder={'Email'} onChange={(e) => setEmail(e.target.value)} />
+          <div className={`w-full !pl-1.5 text-[10px] ${!error ? ' hidden ' : ' text-bright-red horizontal-shake visible'}`}>
+            Please enter your valid email
+          </div>
+        </div>
         <CTAButton onClick={submitHandler} loading={loading}>
           Send Link
         </CTAButton>

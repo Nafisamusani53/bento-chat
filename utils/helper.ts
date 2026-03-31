@@ -57,3 +57,9 @@ export const convertDate = (date: string | Date): string => {
   let timeString = newDate.toLocaleTimeString('en-US', options);
   return timeString.replace(/AM|PM/, match => match.toLowerCase());
 };
+
+export const checkEmail = (email: string): boolean => {
+  const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  return !emailRegex.test(email)
+}

@@ -23,30 +23,6 @@ export interface Messages{
     type: string | null;
     updated_at: string;
 }
-// chat_id
-// : 
-// "ce132727-22c9-4347-91ec-704fe322b9bc"
-// created_at
-// : 
-// "2025-06-18T16:11:50.228518+00:00"
-// id
-// : 
-// "210c9f33-995c-4e91-b6b9-ab13ba12df4d"
-// message
-// : 
-// "Hello"
-// sender_id
-// : 
-// "d952f867-a60f-409c-be6a-1f9a6b10a3f9"
-// status
-// : 
-// "read"
-// type
-// : 
-// null
-// updated_at
-// : 
-// "2025-06-18T16:11:50.228518+00:00"
 
 export interface PresenceMeta {
   user_id: string
@@ -76,4 +52,20 @@ export interface ProfileState {
   avatar: string;
   about: string;
   status: LoadingState
+}
+
+export interface LoginError {
+  email: boolean;
+  password: boolean;
+}
+
+export interface SignupError {
+    username: boolean;
+    password: boolean;
+    email: boolean;
+}
+
+export interface RePassError{
+    password : boolean;
+    confirmPass: boolean;
 }

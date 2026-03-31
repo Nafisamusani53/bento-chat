@@ -9,26 +9,51 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import ThirdParty from './ThirdParty'
 import { login } from '@/store/thunks/AuthThunks'
 import toast from 'react-hot-toast'
+import { LoginError } from '@/type'
+import { checkEmail } from '@/utils/helper'
 
 function LoginForm() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const dispatch = useAppDispatch();
-    const loading = false; //
+    // const loading = false; //
+    const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter();
+    const [errors, setErrors] = useState<LoginError>({
+        email: false,
+        password: false,
+    })
 
+    const checkErrors = () => {
+    const newErrors = {
+        email: !email || checkEmail(email),
+        password: !password
+    }
+
+    setErrors(newErrors)
+
+    return newErrors.email && newErrors.password
+}
    
   const handleLogin = async () => {
-    try {
-    await dispatch(login({ email, password })).unwrap();
+    if(checkErrors()){
+        return;
+    }
 
-    toast.success("Login successful");
+      try {
+          setLoading(true);
+          await dispatch(login({ email, password })).unwrap();
 
-    router.push("/");
-    router.refresh();
-  } catch (err: any) {
-    toast.error(err);
-  }
+          toast.success("Login successful");
+
+          router.push("/");
+          router.refresh();
+      } catch (err: any) {
+          toast.error(err);
+      }
+      finally {
+          setLoading(false);
+      }
   };
 
 
@@ -49,10 +74,21 @@ function LoginForm() {
             <div className='w-full flex flex-col justify-center items-center gap-4'>
                 <div className='w-full flex flex-col justify-center items-center gap-1.5'>
 
-
-                    <AuthInput type={'email'} value={email} placeholder={'Email'} onChange={(e) => setEmail(e.target.value)} />
+                    <div className='flex flex-col w-full'>
+                        <AuthInput type={'email'} value={email} placeholder={'Email'} onChange={(e) => setEmail(e.target.value)} />
+                        <div className={`w-full !pl-1.5 text-[10px] ${!errors.email ? ' hidden ' : ' text-bright-red horizontal-shake visible'}`}>
+                            Please enter your valid email
+                        </div>
+                    </div>
+                    
                     <div className='flex flex-col w-full gap-0.5'>
-                        <AuthPassword value={password} placeholder={"Password"} onChange={(e) => setPassword(e.target.value)} onKeyDown={handleKeyDown}/>
+                        <div className='flex flex-col w-full'>
+                            <AuthPassword value={password} placeholder={"Password"} onChange={(e) => setPassword(e.target.value)} onKeyDown={handleKeyDown} />
+                            <div className={`w-full !pl-1.5 text-[10px] ${!errors.password ? ' hidden ' : ' text-bright-red horizontal-shake visible'}`}>
+                                Please enter password
+                            </div>   
+                        </div>
+                        
                         <Link href={'/auth/forgot-password'} className='w-full text-ink-blue text-xs text-right cursor-pointer'>
                             Forgot Password?
                         </Link>

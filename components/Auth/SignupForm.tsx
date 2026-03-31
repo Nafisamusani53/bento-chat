@@ -1,7 +1,7 @@
 'use client'
 import { useAppDispatch } from '@/store/hooks';
 import { signup } from '@/store/thunks/AuthThunks';
-import { checkPassword } from '@/utils/helper';
+import { checkEmail, checkPassword } from '@/utils/helper';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import CTAButton from '../Common/CTAButton';
@@ -10,57 +10,53 @@ import AuthPassword from '../Common/AuthPassword';
 import ThirdParty from './ThirdParty';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
+import { SignupError } from '@/type';
 
-interface ErrorType {
-    password: boolean;
-    email: boolean;
-}
+
 
 const SignupForm = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [userName, setUserName] = useState<string>('')
-    const [error, setError] = useState<ErrorType>({
+    const [error, setError] = useState<SignupError>({
+        username: false,
         password: false,
         email: false
     })
-    const loading = false //
+    // const loading = false //
+    const [loading, setLoading] = useState<boolean>(false);
     const dispatch = useAppDispatch()
     const router = useRouter()
 
+    const checkErrors = () => {
+
+        const newErrors = {
+            username: !userName,
+            email: !email || checkEmail(email),
+            password: !password || !checkPassword(password)
+        };
+
+        setError(newErrors);
+
+        // return whether form is valid
+        return newErrors.username && newErrors.email && newErrors.password;
+    };
+
 
     const submitHandler = async () => {
-        if (!userName || !email || !password) {
-            return;
-        }
-        const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-        setError({
-            email: false,
-            password: false
-        })
-        if (!emailRegex.test(email)) {
-            setError(prev => ({
-                ...prev,
-                email: true
-            }))
-            return
-        }
-        const pass = checkPassword(password)
-        if (!pass) {
-            setError(prev => ({
-                ...prev,
-                password: true
-            }))
+        if(checkErrors()){
             return;
         }
         try {
+            setLoading(true);
             await dispatch(signup({ email, password, userName })).unwrap();
 
             router.push("/");
             router.refresh();
         } catch (err: any) {
             toast.error(err || "Signup failed");
+        }finally{
+            setLoading(false);
         }
     }
 
@@ -86,7 +82,12 @@ const SignupForm = () => {
             <div className='w-full flex flex-col justify-center items-center gap-4'>
                 <div className='w-full flex flex-col justify-center items-center gap-1.5'>
 
-                    <AuthInput type={'text'} value={userName} placeholder={'User name'} onChange={(e) => setUserName(e.target.value)} />
+                    <div className='flex flex-col w-full gap-0.5'>
+                        <AuthInput type={'text'} value={userName} placeholder={'User name'} onChange={(e) => setUserName(e.target.value)} />
+                        <div className={`w-full !pl-1.5 text-[10px] ${!error.username ? 'hidden' : ' text-bright-red horizontal-shake'}`}>
+                            Enter your User Name
+                        </div>
+                    </div>
                     <div className='flex flex-col w-full gap-0.5'>
                         <AuthInput type={'email'} value={email} placeholder={'Email'} onChange={(e) => setEmail(e.target.value)} />
                         <div className={`w-full !pl-1.5 text-[10px] ${!error.email ? 'hidden' : ' text-bright-red horizontal-shake'}`}>

@@ -7,52 +7,44 @@ import AuthPassword from '../Common/AuthPassword';
 import CTAButton from '../Common/CTAButton';
 import { resetPassword } from '@/store/thunks/AuthThunks';
 import toast from 'react-hot-toast';
-interface ErrorType{
-    password : boolean;
-    confirmPass: boolean;
-}
+import { BlobOptions } from 'buffer';
+import { RePassError } from '@/type';
+
 
 const ResetPasswordForm = () => {
   const [password, setPassword] = useState<string>('')
   const [confirmPass, setConfirmPass] = useState<string>('')
-  const [error, setError] = useState<ErrorType>({
+  const [error, setError] = useState<RePassError>({
           password: false,
           confirmPass: false
       })
-    const loading = false;  // need to change
+    const [loading, setLoading] = useState<boolean>(false)
     const dispatch = useAppDispatch()
     const router = useRouter()
 
+    const checkPasswordErrors = () => {
+        const newErrors = {
+            password: !password || !checkPassword(password),
+            confirmPass: !confirmPass || password !== confirmPass
+        };
+
+        setError(newErrors);
+
+        return newErrors.password && newErrors.confirmPass;
+    };
+
     const submitHandler = async () => {
-            if (!confirmPass || !password) {
+            if(checkPasswordErrors())
                 return;
-            }
-    
-            setError({
-                confirmPass: false,
-                password: false
-            })
-            if (password !== confirmPass) {
-                setError(prev => ({
-                    ...prev,
-                    confirmPass: true
-                }))
-                return
-            }
-            const pass = checkPassword(password)
-            if (!pass) {
-                setError(prev => ({
-                    ...prev,
-                    password: true
-                }))
-                return;
-            }
             try{
+                setLoading(true)
                 await dispatch(resetPassword({password})).unwrap();
                 router.push("/")
             }
             catch(err){
                 toast.error("Please try again after some time")
+            }finally{
+                setLoading(false)
             }
             
         }
