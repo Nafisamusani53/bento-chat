@@ -5,8 +5,6 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { UserList } from '@/type'
 import React from 'react'
 import { setChat } from '@/store/slices/chatSlice';
-import defaultImage from '../../../../assests/images/default-image.webp';
-import Image from 'next/image';
 import { convertDate } from '@/utils/helper';
 
 interface ListItemProps {

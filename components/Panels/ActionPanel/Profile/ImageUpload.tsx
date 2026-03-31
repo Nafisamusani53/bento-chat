@@ -52,6 +52,7 @@ const ImageUpload : React.FC<ImageUplaodArgs> = ({avatar, id}) => {
             <img
                 src={avatar}
                 alt='Profile'
+                referrerPolicy="no-referrer"
                 className={`w-40 aspect-square rounded-full border border-white object-cover ${hover ? 'blur-xs' : ''}`}
                 loading='lazy'
             />

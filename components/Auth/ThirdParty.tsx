@@ -10,7 +10,6 @@ const ThirdParty = () => {
 
   // ✅ Wrap thunk inside a function
   const handleGoogleLogin = () => {
-    console.log("dispatching google auth");
     dispatch(googleAuth());
   };
   return (

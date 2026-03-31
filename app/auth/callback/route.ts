@@ -1,33 +1,9 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/utils/supabase/server";
 
-// export async function GET(request: Request) {
-//   const { searchParams, origin } = new URL(request.url);
-//   const code = searchParams.get("code");
-
-//   if (code) {
-//     try {
-//       const supabase = await supabaseServer();
-//       await supabase.auth.exchangeCodeForSession(code);
-//     } catch (error) {
-//       console.error("OAuth exchange failed:", error);
-//       return NextResponse.redirect(`${origin}/login`);
-//     }
-//   }
-
-//   return NextResponse.redirect(`${origin}/`);
-// }
-
-
-// // app/auth/callback/route.ts
-
-// import { NextResponse } from "next/server";
-// import { supabaseServer } from "@/utils/supabase/server";
-
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-
   if (!code) {
     return NextResponse.redirect(`${origin}/login`);
   }
@@ -46,15 +22,12 @@ export async function GET(request: Request) {
 
     // ✅ Step 2: Get logged-in user
     const { data, error: userError } = await supabase.auth.getUser();
-    console.log("Data", data)
-
     if (userError || !data?.user) {
       console.error("User fetch error:", userError?.message);
       return NextResponse.redirect(`${origin}/login`);
     }
 
     const user = data.user;
-    console.log(user)
 
     // ✅ Step 3: Insert into User table (FK safe)
     const { error: insertError } = await supabase
@@ -63,8 +36,9 @@ export async function GET(request: Request) {
         {
           id: user.id, // 🔥 FK to auth.users.id
           email: user.email,
-          name: user.user_metadata?.full_name || "",
+          username: user.user_metadata?.full_name || "",
           avatar: user.user_metadata?.avatar_url || "",
+          about: "I'm available",
         },
         {
           onConflict: "id",

@@ -49,10 +49,11 @@ const Navigation = () => {
                                 ${activeTab === "profile" ? '!py-3 bg-white/40' : ' bg-transparent'}`}
                     onClick={(e) => { navigationHandler(e, "profile") }}>
                     <img
-  src={profile.avatar}
-  className="border border-dark-blue rounded-full aspect-square w-9 object-cover"
-  alt="Profile image"
-/>
+                        src={profile.avatar}
+                        referrerPolicy="no-referrer"
+                        className="border border-dark-blue rounded-full aspect-square w-9 object-cover"
+                        alt="Profile image"
+                    />
                 </div>
             </div>
         </div>
