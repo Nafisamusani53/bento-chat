@@ -9,10 +9,11 @@ import { supabase } from '@/utils/supabase/client';
 
 interface SearchBarProps {
   setUserList: React.Dispatch<React.SetStateAction<UserList[]>>;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
-const SearchBar : React.FC<SearchBarProps> = ({setUserList}) => {
+const SearchBar : React.FC<SearchBarProps> = ({setUserList, setLoading}) => {
   const [value, setValue] = useState<string>('')
     const id = useAppSelector(state => state.profile.id)
 
@@ -20,16 +21,19 @@ const SearchBar : React.FC<SearchBarProps> = ({setUserList}) => {
       if(!id){
         return;
       }
+      setLoading(true);
       const {data, error} = await supabase.rpc("chatlist", {
         profileid: id
       })
       if(data){
         setUserList(data)
       }
+      setLoading(false);
     }
 
   const sendRequest = async () => {
     if(value){
+      setLoading(true);
       const {data: users, error} = await supabase.rpc("search", {
         profileid: id,
         content : value
@@ -37,6 +41,7 @@ const SearchBar : React.FC<SearchBarProps> = ({setUserList}) => {
       if(users){
         setUserList(users)
       }
+      setLoading(false);
     }
 
   };

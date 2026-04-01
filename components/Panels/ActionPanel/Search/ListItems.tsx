@@ -43,6 +43,7 @@ const ListItems: React.FC<ListItemProps> = ({ data }) => {
                 alt="User avatar"
                 width={44}
                 height={44}
+                referrerPolicy="no-referrer"
                 className="rounded-full aspect-square w-11 object-cover"
             />
 
