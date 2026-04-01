@@ -23,7 +23,6 @@ const SignupForm = () => {
         password: false,
         email: false
     })
-    // const loading = false //
     const [loading, setLoading] = useState<boolean>(false);
     const dispatch = useAppDispatch()
     const router = useRouter()
@@ -39,7 +38,7 @@ const SignupForm = () => {
         setError(newErrors);
 
         // return whether form is valid
-        return newErrors.username && newErrors.email && newErrors.password;
+        return newErrors.username || newErrors.email || newErrors.password;
     };
 
 
@@ -123,7 +122,7 @@ const SignupForm = () => {
                     </div>
 
                     <div className=' text-dark-grey text-[16px] text-center w-full'>
-                        Already have an account? <Link href={'/login'} className='text-ink-blue'>Log in</Link>
+                        Already have an account? <Link href={'/auth/login'} className='text-ink-blue'>Log in</Link>
                     </div>
                 </div>
             </div>

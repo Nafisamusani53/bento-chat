@@ -30,7 +30,7 @@ const ResetPasswordForm = () => {
 
         setError(newErrors);
 
-        return newErrors.password && newErrors.confirmPass;
+        return newErrors.password || newErrors.confirmPass;
     };
 
     const submitHandler = async () => {

@@ -16,7 +16,6 @@ function LoginForm() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const dispatch = useAppDispatch();
-    // const loading = false; //
     const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter();
     const [errors, setErrors] = useState<LoginError>({
@@ -32,7 +31,7 @@ function LoginForm() {
 
     setErrors(newErrors)
 
-    return newErrors.email && newErrors.password
+    return newErrors.email || newErrors.password
 }
    
   const handleLogin = async () => {
